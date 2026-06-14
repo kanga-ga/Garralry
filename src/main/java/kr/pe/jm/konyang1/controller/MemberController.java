@@ -23,6 +23,11 @@ public class MemberController {
             @RequestParam String nickname,
             Model model) {
 
+        if (!username.matches("^[a-zA-Z0-9]+$")) {
+            model.addAttribute("errorMessage", "아이디는 영문자와 숫자만 사용할 수 있습니다.");
+            return "register"; // 팝업 없이 다시 가입 페이지로 이동
+        }
+
         if (!password.equals(passwordConfirm)) {
             model.addAttribute("errorMessage", "비밀번호가 서로 다릅니다.");
             return "register";
