@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "article")
@@ -30,15 +32,25 @@ public class Article {
     @Column(nullable = false, length = 50)
     private String author;
 
+    // 작성자 회원을 id로 연결해서 닉네임이 바뀌어도 같은 회원인지 안정적으로 확인합니다.
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private Member member;
+
+    // 게시글이 삭제될 때 해당 게시글의 댓글도 함께 삭제되도록 연결합니다.
+    @OneToMany(mappedBy = "article", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<Comment> comments = new ArrayList<>();
+
     private LocalDateTime createdAt;
 
     @Builder // category가 추가되었으므로 생성자에도 포함시켜 줍니다.
-    public Article(Long id, String category, String title, String content, String author, LocalDateTime createdAt) {
+    public Article(Long id, String category, String title, String content, String author, Member member, LocalDateTime createdAt) {
         this.id = id;
         this.category = category;
         this.title = title;
         this.content = content;
         this.author = author;
+        this.member = member;
         this.createdAt = createdAt;
     }
 
