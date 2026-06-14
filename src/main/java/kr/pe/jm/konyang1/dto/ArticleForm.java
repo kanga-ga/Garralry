@@ -1,6 +1,7 @@
 package kr.pe.jm.konyang1.dto;
 
 import kr.pe.jm.konyang1.entity.Article;
+import kr.pe.jm.konyang1.entity.Member;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,6 +18,16 @@ public class ArticleForm {
                 .category(category) // 엔티티로 변환할 때 카테고리도 함께 포장합니다.
                 .title(title)
                 .author(author)
+                .content(content)
+                .build();
+    }
+
+    public Article toEntity(Member member) {
+        return Article.builder()
+                .category(category)
+                .title(title)
+                .author(member.getNickname())
+                .member(member)
                 .content(content)
                 .build();
     }
