@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${categoryName} + ' 게시판'">카테고리 게시판</title>
+    <style>
+        body { font-family: 'Malgun Gothic', sans-serif; padding: 50px; text-align: center; }
+        .board-container { width: 80%; max-width: 1000px; margin: 0 auto; text-align: left; }
+        h1 { color: #007bff; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: center; }
+        th { background-color: #f4f4f4; font-weight: bold; }
+        .title-cell { text-align: left; padding-left: 20px; }
+        .title-cell a { color: #333; text-decoration: none; }
+        .title-cell a:hover { text-decoration: underline; }
+        .top-menu { display: flex; justify-content: space-between; margin-bottom: 20px; }
+        .btn { padding: 10px 20px; background-color: #333; color: white; text-decoration: none; border-radius: 5px; }
+    </style>
+</head>
+<body>
+
+<div class="board-container">
+    <div class="top-menu">
+        <a th:href="@{/}" class="btn">🏠 홈으로</a>
+        <a th:href="@{/write}" class="btn">✏️ 글쓰기</a>
+    </div>
+
+    <h1><span th:text="${categoryName}"></span> 게시판</h1>
+
+    <table>
+        <thead>
+        <tr>
+            <th width="10%">번호</th>
+            <th width="50%">제목</th>
+            <th width="20%">작성자</th>
+            <th width="20%">작성일</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="article : ${articles}">
+            <td th:text="${article.id}">1</td>
+            <td class="title-cell">
+                <a th:href="@{/articles/{id}(id=${article.id})}" th:text="${article.title}">게시글 제목입니다</a>
+            </td>
+            <td th:text="${article.author}">홍길동</td>
+            <td th:text="${#temporals.format(article.createdAt, 'yyyy-MM-dd HH:mm')}">2026-06-10</td>
+        </tr>
+
+        <tr th:if="${#lists.isEmpty(articles)}">
+            <td colspan="4" style="padding: 30px; color: #999;">아직 작성된 게시글이 없습니다. 첫 글의 주인공이 되어보세요!</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>

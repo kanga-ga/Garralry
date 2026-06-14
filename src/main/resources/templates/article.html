@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${article.title}">게시글 상세</title>
+    <style>
+        body { font-family: 'Malgun Gothic', sans-serif; padding: 50px; background-color: #f9f9f9; }
+        .article-container {
+            width: 70%; max-width: 900px; margin: 0 auto; background-color: white;
+            border: 1px solid #ddd; border-radius: 10px; padding: 40px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+        }
+        h1 { margin-top: 0; color: #333; }
+        .meta { color: #666; border-bottom: 1px solid #ddd; padding-bottom: 15px; margin-bottom: 30px; }
+        .content { min-height: 250px; line-height: 1.8; white-space: pre-wrap; }
+        .btn {
+            display: inline-block; margin-top: 30px; padding: 10px 20px;
+            background-color: #333; color: white; text-decoration: none; border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="article-container">
+    <h1 th:text="${article.title}">게시글 제목</h1>
+    <div class="meta">
+        <span>작성자: <strong th:text="${article.author}">닉네임</strong></span>
+        <span> | </span>
+        <span th:text="${#temporals.format(article.createdAt, 'yyyy-MM-dd HH:mm')}">2026-06-10 12:00</span>
+    </div>
+
+    <div class="content" th:text="${article.content}">게시글 내용</div>
+
+    <a th:href="@{/board/{category}(category=${article.category})}" class="btn">목록으로 돌아가기</a>
+</div>
+
+</body>
+</html>
