@@ -17,6 +17,8 @@
             display: inline-block; margin-top: 30px; padding: 10px 20px;
             background-color: #333; color: white; text-decoration: none; border-radius: 5px;
         }
+        .delete-btn { border: none; cursor: pointer; background-color: #dc3545; font-size: 1em; }
+        .action-form { display: inline-block; margin-left: 8px; }
     </style>
 </head>
 <body>
@@ -32,6 +34,12 @@
     <div class="content" th:text="${article.content}">게시글 내용</div>
 
     <a th:href="@{/board/{category}(category=${article.category})}" class="btn">목록으로 돌아가기</a>
+    <!-- 작성자 본인에게만 수정/삭제 버튼을 보여줍니다. 실제 권한 검사는 컨트롤러에서도 다시 합니다. -->
+    <a th:if="${isAuthor}" th:href="@{/articles/{id}/edit(id=${article.id})}" class="btn">수정하기</a>
+    <form th:if="${isAuthor}" th:action="@{/articles/{id}/delete(id=${article.id})}" method="post" class="action-form">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+        <button type="submit" class="btn delete-btn" onclick="return confirm('정말 삭제하시겠습니까?');">삭제하기</button>
+    </form>
 </div>
 
 </body>

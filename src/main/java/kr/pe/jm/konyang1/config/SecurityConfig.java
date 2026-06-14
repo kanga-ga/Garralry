@@ -15,7 +15,8 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/write", "/articles/create").authenticated()
+                        // 글 작성, 수정, 삭제는 로그인한 사용자만 접근할 수 있습니다.
+                        .requestMatchers("/write", "/articles/create", "/articles/*/edit", "/articles/*/update", "/articles/*/delete").authenticated()
                         .requestMatchers("/", "/login", "/register", "/board/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/articles/*").permitAll()
                         .anyRequest().permitAll()

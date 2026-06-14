@@ -46,4 +46,11 @@ public class Article {
     public void prePersist() {
         this.createdAt = LocalDateTime.now();
     }
+
+    // 게시글 수정 화면에서 넘어온 값으로 기존 글의 내용을 바꿉니다.
+    public void update(String category, String title, String content) {
+        this.category = category;
+        this.title = title;
+        this.content = content;
+    }
 }
